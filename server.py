@@ -27,7 +27,7 @@ def upload():
             try:
                 file.save(path)
             except(Exception):
-                print('File was not uploaded')
+                return 'File was not uploaded'
             return 'File was succesfully uploaded'
 
 
