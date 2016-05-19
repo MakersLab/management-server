@@ -1,6 +1,8 @@
 import os
 from flask import Flask, url_for, render_template, request, redirect
 from time import localtime
+from time import sleep
+import json
 
 app = Flask(__name__)
 
@@ -25,14 +27,24 @@ def upload():
         if(filename.split('.')[-1]=='stl'):
             # file.save(os.path.join(app.config['UPLOAD_FOLDER'], 'empty.txt'))
             path = os.path.normcase(os.path.join(os.path.dirname(__file__), 'uploads/temporary.stl'))
-            print(path)
             try:
                 file.save(path)
             except(Exception):
                 return 'File was not uploaded'
-            executeFromFile(filename)
-            return 'File was succesfully uploaded'
+            #executeFromFile(filename)
+            return render_template('processing.jinja2',filename=filename)
     return 'Wrong file type'
+
+@app.route('/slicing', methods=['POST'])
+def slicing():
+    sleep(500)
+    state={
+        'price':50,
+        'successful':True,
+    }
+    stateJson=json.dumps(state)
+    return stateJson
+
 
 def executeFromFile(filename):
     time=localtime()
