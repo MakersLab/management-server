@@ -1,12 +1,14 @@
-#!/usr/bin/python
-import sys
 import os
 from flask import Flask, url_for, render_template, request, redirect
+from time import localtime
 
 app = Flask(__name__)
 
 UPLOADS_PATH = 'uploads/'
 app.config['UPLOAD_FOLDER'] = UPLOADS_PATH
+
+CURA_SCRIPT_PATH='cura.sh'
+
 app.debug = True
 
 
@@ -28,14 +30,18 @@ def upload():
                 file.save(path)
             except(Exception):
                 return 'File was not uploaded'
+            executeFromFile(filename)
             return 'File was succesfully uploaded'
     return 'Wrong file type'
 
-def executeFromFile(path):
-    with open(path, 'r') as f:
-        command = f.read()
-        command = command.rsplit('\n')
-        print(command)
+def executeFromFile(filename):
+    time=localtime()
+    gcoName=''
+    for i in range(3):
+        gcoName += '_'+time[i]
+    gcoName += filename.split('.')[0:-1]
+
+    os.system('sudo ./'+CURA_SCRIPT_PATH+' '+gcoName)
 
 
 with app.test_request_context():
