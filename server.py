@@ -29,7 +29,7 @@ def upload():
             except(Exception):
                 return 'File was not uploaded'
             return 'File was succesfully uploaded'
-	return 'Wrong file type'
+    return 'Wrong file type'
 
 def executeFromFile(path):
     with open(path, 'r') as f:
