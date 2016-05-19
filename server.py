@@ -18,7 +18,6 @@ def index():
 @app.route('/image_upload', methods=['POST'])
 def upload():
     if request.method == 'POST':
-
         file = request.files["file"]
         filename = file.filename
         if(filename.split('.')[-1]=='stl'):
