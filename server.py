@@ -38,7 +38,7 @@ def executeFromFile(filename):
     time=localtime()
     gcoName=''
     for i in range(3):
-        gcoName += '_'+time[i]
+        gcoName += '_'+str(time[i])
     gcoName += filename.split('.')[0:-1]
 
     os.system('sudo ./'+CURA_SCRIPT_PATH+' '+gcoName)
