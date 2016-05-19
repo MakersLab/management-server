@@ -40,7 +40,7 @@ def executeFromFile(filename):
     for i in range(3):
         gcoName += '_'+str(time[i])
     gcoName += '.'.join(filename.split('.')[0:-1])
-    os.system('sudo ./'+CURA_SCRIPT_PATH+' '+gcoName)
+    os.system('sudo sh '+CURA_SCRIPT_PATH+' '+gcoName)
 
 
 with app.test_request_context():
