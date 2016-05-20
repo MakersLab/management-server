@@ -13,19 +13,24 @@ function showPrompt() {
     return adress;
 }
 function streamControl(method) {
-    var adress = showPrompt();
-    if (adress != null) {
-        console.log('Calling JSON')
-        $.ajax({
-            type: 'POST',
-            url: '/stream/control',
-            success: ajaxCallback,
-            data: {adress: adress, command: method}
-        })
-    }
 
+    if ($('#stream-key').val() != null) {
+
+        var key = $('#stream-key').val();
+        var adress = showPrompt();
+        if (adress != null) {
+            $.ajax({
+                type: 'POST',
+                url: '/stream/control',
+                success: ajaxCallback,
+                data: {adress: adress, command: method, key: key}
+            })
+        }
+
+    }
 }
-ajaxCallback = function (data) {
-    data_decoded = JSON.parse(data);
-    console.log(data_decoded);
+    ajaxCallback = function (data) {
+        data_decoded = JSON.parse(data);
+        console.log(data_decoded);
+
 };

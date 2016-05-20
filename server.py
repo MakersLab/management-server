@@ -69,8 +69,8 @@ def streamControl():
     '''Put here socket which connects to raspberry running server and control it'''
     adress = request.form['adress']
     command = request.form['command']
-
-    successful, message = sendCommand(adress, command)
+    key = request.form['key']
+    successful, message = sendCommand(adress, command,key)
     data = {
         'successful': successful,
         'message': message,
@@ -79,12 +79,12 @@ def streamControl():
     return json.dumps(data)
 
 
-def sendCommand(adress, data):
+def sendCommand(adress, data,key):
     import socket
     connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
         connection.connect((adress, STREAM_PORT))
-        msgSend = {'control': data}
+        msgSend = {'control': data,'key':key}
         connection.send(json.dumps(msgSend).encode())
         msgRecv = connection.recv(1024)
         msg_decoded = msgRecv.decode('utf8')
