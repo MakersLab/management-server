@@ -1,3 +1,32 @@
+/*@import "reset";*/
+.header {
+  padding-top: 20px;
+  font-family: "Source Code Pro", sans-serif;
+  width: 100%;
+  margin-top: 0;
+  background-color: #fff250; }
+  .header__text {
+    justify-content: center;
+    background-color: inherit;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 30px;
+    text-align: center; }
 
+.menu__link {
+  color: #303030;
+  text-decoration: none;
+  font-style: normal; }
+
+body {
+  background-color: #c6d4d5; }
+
+.content {
+  padding-top: 60px;
+  background-color: #ffffff; }
+  .content:last-child {
+    padding-bottom: 60px; }
+
+.stream {
+  text-align: center; }
 
 /*# sourceMappingURL=main.css.map */

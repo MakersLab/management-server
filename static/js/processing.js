@@ -1,3 +1,5 @@
+$('#price-state').hide();
+
 request = new XMLHttpRequest();
 request.onreadystatechange = function () {
     if (request.readyState == 4 && request.status == 200) {
@@ -7,10 +9,12 @@ request.onreadystatechange = function () {
         console.log('JSON was successful');
         if (data['successful']) {
             console.log('got successful');
-            document.getElementById('state').innerHTML = 'Successful';
+            $('#state').text('Successful');
+            $('#price').text(data['price']);
+            $('#price-state').show();
         }
         else {
-            document.getElementById('state').innerHTML = 'There was an error. Try again later';
+            $('#state').innerHTML = 'There was an error. Try again later';
         }
 
     }

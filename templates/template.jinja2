@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>{% block title %}{% endblock %}</title>
+    <link href="/static/skeleton/css/normalize.css" rel="stylesheet" type="text/css">
+    <link href="/static/skeleton/css/skeleton.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/main.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+{% include 'partials/header.jinja2' %}
+
+{% block content %}
+{% endblock %}
+<script src="/static/js/jquery.js"></script>
+{% block script %}
+<script src="/static/js/main.js"></script>
+{% endblock %}
+</body>
+</html>
+

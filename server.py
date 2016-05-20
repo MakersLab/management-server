@@ -16,10 +16,10 @@ app.debug = True
 
 @app.route('/')
 def index():
-    return render_template('index.jinja2', )
+    return render_template('pages/index.jinja2', )
 
 
-@app.route('/image_upload', methods=['POST'])
+@app.route('/stl-pricing', methods=['POST','GET'])
 def upload():
     if request.method == 'POST':
         file = request.files["file"]
@@ -32,12 +32,14 @@ def upload():
             except(Exception):
                 return 'File was not uploaded'
             #executeFromFile(filename)
-            return render_template('processing.jinja2',filename=filename)
-    return 'Wrong file type'
+            return render_template('pages/processing.jinja2', filename=filename)
+        return 'Wrong file type'
+    elif request.method == 'GET':
+        return render_template('pages/file_upload.jinja2', )
 
-@app.route('/slicing', methods=['POST'])
+@app.route('/stl-pricing/slice', methods=['POST'])
 def slicing():
-    sleep(500)
+    sleep(3)
     state={
         'price':50,
         'successful':True,
@@ -54,6 +56,9 @@ def executeFromFile(filename):
     gcoName += '.'.join(filename.split('.')[0:-1])
     os.system('sudo sh '+CURA_SCRIPT_PATH+' '+gcoName)
 
+@app.route('/stream')
+def stream():
+    return render_template('pages/stream.jinja2')
 
 with app.test_request_context():
     url_for('static', filename='*')

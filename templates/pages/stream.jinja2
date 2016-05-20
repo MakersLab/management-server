@@ -1,0 +1,18 @@
+{% extends 'template.jinja2' %}
+
+{% block content %}
+  <div class="container">
+    <div class="row content">
+    <div class="stream">
+      <button type="submit" class="button" onclick="stopStream()">START</button>
+
+      <button type="submit" class="button" onclick="startStream()">STOP</button>
+    </div>
+    </div>
+  </div>
+{% endblock %}
+
+
+{% block script %}
+  <script src="/static/js/stream.js"></script>
+{% endblock %}

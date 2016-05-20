@@ -1,0 +1,23 @@
+.header {
+  padding-top: 20px;
+  font-family: "Source Code Pro", sans-serif;
+  width: 100%;
+  margin-top: 0;
+  background-color: $header-color;
+  &__text {
+    justify-content: center;
+    background-color: inherit;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 30px;
+    text-align: center;
+  }
+}
+
+.menu {
+  &__link {
+    color:  $menu-link-color;
+    text-decoration: none;
+    font-style: normal;
+  }
+
+}

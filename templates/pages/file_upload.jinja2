@@ -1,0 +1,18 @@
+{% extends "template.jinja2" %}
+
+{% block content %}
+  <div class="container">
+    <div class="row content">
+      <div class="eight columns offset-by-two">
+        <form enctype="multipart/form-data" action="/image_upload" method="post" class="">
+
+          <label for="file">Select stl file</label>
+          <input id="file" type="file" name="file" class="">
+
+          <input type="submit" value="upload" class="button">
+
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

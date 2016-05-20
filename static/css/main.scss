@@ -1,0 +1,19 @@
+/*@import "reset";*/
+@import "variables";
+@import "header";
+
+body{
+  background-color: $body-background-color;
+}
+
+.content{
+  padding-top: 60px;
+  background-color: $content-background-color;
+&:last-child{
+  padding-bottom: 60px;
+}
+}
+
+.stream{
+  text-align: center;
+}
