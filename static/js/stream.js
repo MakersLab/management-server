@@ -21,7 +21,7 @@ function streamControl(method) {
                 type: 'POST',
                 url: '/stream/control',
                 success: ajaxCallback,
-                data: {address: address, command: method, key: key, printer: printer}
+                data: {command: method, key: key, printer: printer}
             });
     }
     else {
