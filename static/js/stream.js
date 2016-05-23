@@ -17,14 +17,12 @@ function streamControl(method) {
     if (($('#stream-key').val() != '' && method == 'start') || ( method == 'stop')) {
         var key = $('#stream-key').val();
         var printer = $('#printer-list option:selected').val();
-        if (address != null) {
             $.ajax({
                 type: 'POST',
                 url: '/stream/control',
                 success: ajaxCallback,
                 data: {address: address, command: method, key: key, printer: printer}
             });
-        }
     }
     else {
         alert('Stream key input is empty.')
