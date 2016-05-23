@@ -98,7 +98,7 @@ def streamControl():
         if (i['index'] == str(printer)):
             printer = i
             break
-    address = i['adress']
+    address = i['address']
     command = request.form['command']
     if (request.form['command'] == 'stop'):
         key = None
