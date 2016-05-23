@@ -13,6 +13,7 @@ CURA_SCRIPT_PATH = 'cura.sh'
 STREAM_PORT = 4000
 
 app.debug = True
+app.config['DEBUG'] = True
 
 info = {
     'username': 'Jakub Zíka',
@@ -22,7 +23,7 @@ info = {
 
 @app.route('/')
 def index():
-    return render_template('pages/index.jinja2',info=info )
+    return render_template('pages/index.jinja2', info=info)
 
 
 @app.route('/stl-pricing', methods=['POST', 'GET'])
@@ -38,7 +39,7 @@ def upload():
             except(Exception):
                 return 'File was not uploaded'
             # executeFromFile(filename)
-            return render_template('pages/processing.jinja2', filename=filename,info=info)
+            return render_template('pages/processing.jinja2', filename=filename, info=info)
         return 'Wrong file type'
     elif request.method == 'GET':
         return render_template('pages/file_upload.jinja2', info=info)
@@ -74,8 +75,8 @@ def streamControl():
     '''Put here socket which connects to raspberry running server and control it'''
     address = request.form['address']
     command = request.form['command']
-    if(request.form['command']=='stop'):
-        key= None
+    if (request.form['command'] == 'stop'):
+        key = None
     else:
         key = request.form['key']
     successful, message = sendCommand(address, command, key)
