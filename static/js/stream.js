@@ -14,15 +14,15 @@ function showPrompt() {
 }
 function streamControl(method) {
 
-    if (($('#stream-key').val() != '' && method == 'start') ||( method == 'stop')) {
+    if (($('#stream-key').val() != '' && method == 'start') || ( method == 'stop')) {
         var key = $('#stream-key').val();
-        var address = showPrompt();
+        var printer = $('#printer-list option:selected').val();
         if (address != null) {
             $.ajax({
                 type: 'POST',
                 url: '/stream/control',
                 success: ajaxCallback,
-                data: {address: address, command: method, key: key}
+                data: {address: address, command: method, key: key, printer: printer}
             });
         }
     }
@@ -33,5 +33,6 @@ function streamControl(method) {
 ajaxCallback = function (data) {
     data_decoded = JSON.parse(data);
     console.log(data_decoded);
+    alert(data_decoded['message']);
 
 };

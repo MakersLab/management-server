@@ -15,6 +15,8 @@ STREAM_PORT = 4000
 app.debug = True
 app.config['DEBUG'] = True
 
+PRINTERS_PATH = 'printers.txt'
+
 info = {
     'username': 'Jakub Zíka',
 
@@ -67,13 +69,35 @@ def executeFromFile(filename):
 
 @app.route('/stream')
 def stream():
-    return render_template('pages/stream.jinja2', info=info)
+    printers = generateNames()
+    return render_template('pages/stream.jinja2', info=info, list=printers)
+
+
+def generateNames():
+    printers = []
+    with open(PRINTERS_PATH, 'r') as f:
+        content = f.read()
+        content = content.splitlines()
+        for index, i in enumerate(content):
+            info = {}
+            name, adress = i.split(' ')
+            info['name'] = name
+            info['index'] = index
+            printers.append(info)
+        f.close()
+        return printers
 
 
 @app.route('/stream/control', methods=['POST'])
 def streamControl():
     '''Put here socket which connects to raspberry running server and control it'''
-    address = request.form['address']
+    printer = request.form['printer']
+    list = generateNames()
+    for index, i in enumerate(list):
+        if (i['index'] == str(printer)):
+            printer = i
+            break
+    address = i['adress']
     command = request.form['command']
     if (request.form['command'] == 'stop'):
         key = None
