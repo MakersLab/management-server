@@ -92,6 +92,7 @@ def sendCommand(adress, data, key):
     try:
         connection.connect((adress, STREAM_PORT))
     except Exception as e:
+        print(e)
         return False, 'Could not connect to server. Invalid IP adress'
 
     msgSend = {'control': data, 'key': key}
