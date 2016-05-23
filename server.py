@@ -94,11 +94,7 @@ def streamControl():
     '''Put here socket which connects to raspberry running server and control it'''
     printer = request.form['printer']
     list = generateNames()
-    for index, i in enumerate(list):
-        if (i['index'] == str(printer)):
-            printer = i
-            break
-    address = i['address']
+    address = list[int(printer)]['address']
     command = request.form['command']
     if (request.form['command'] == 'stop'):
         key = None
