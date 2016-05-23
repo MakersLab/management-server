@@ -9,28 +9,29 @@ function stopStream() {
 }
 
 function showPrompt() {
-    var adress = prompt('Type in IP adress', '192.168.2.9');
-    return adress;
+    address = prompt('Type in IP adress', '192.168.2.9');
+    return address;
 }
 function streamControl(method) {
 
-    if ($('#stream-key').val() != null) {
-
+    if (($('#stream-key').val() != '' && method == 'start') ||( method == 'stop')) {
         var key = $('#stream-key').val();
-        var adress = showPrompt();
-        if (adress != null) {
+        var address = showPrompt();
+        if (address != null) {
             $.ajax({
                 type: 'POST',
                 url: '/stream/control',
                 success: ajaxCallback,
-                data: {adress: adress, command: method, key: key}
-            })
+                data: {address: address, command: method, key: key}
+            });
         }
-
+    }
+    else {
+        alert('Stream key input is empty.')
     }
 }
-    ajaxCallback = function (data) {
-        data_decoded = JSON.parse(data);
-        console.log(data_decoded);
+ajaxCallback = function (data) {
+    data_decoded = JSON.parse(data);
+    console.log(data_decoded);
 
 };

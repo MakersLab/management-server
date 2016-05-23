@@ -14,10 +14,15 @@ STREAM_PORT = 4000
 
 app.debug = True
 
+info = {
+    'username': 'Jakub Zíka',
+
+}
+
 
 @app.route('/')
 def index():
-    return render_template('pages/index.jinja2', )
+    return render_template('pages/index.jinja2',info=info )
 
 
 @app.route('/stl-pricing', methods=['POST', 'GET'])
@@ -33,10 +38,10 @@ def upload():
             except(Exception):
                 return 'File was not uploaded'
             # executeFromFile(filename)
-            return render_template('pages/processing.jinja2', filename=filename)
+            return render_template('pages/processing.jinja2', filename=filename,info=info)
         return 'Wrong file type'
     elif request.method == 'GET':
-        return render_template('pages/file_upload.jinja2', )
+        return render_template('pages/file_upload.jinja2', info=info)
 
 
 @app.route('/stl-pricing/slice', methods=['POST'])
@@ -61,39 +66,40 @@ def executeFromFile(filename):
 
 @app.route('/stream')
 def stream():
-    return render_template('pages/stream.jinja2')
+    return render_template('pages/stream.jinja2', info=info)
 
 
 @app.route('/stream/control', methods=['POST'])
 def streamControl():
     '''Put here socket which connects to raspberry running server and control it'''
-    adress = request.form['adress']
+    address = request.form['address']
     command = request.form['command']
-    key = request.form['key']
-    successful, message = sendCommand(adress, command,key)
+    if(request.form['command']=='stop'):
+        key= None
+    else:
+        key = request.form['key']
+    successful, message = sendCommand(address, command, key)
     data = {
         'successful': successful,
         'message': message,
     }
-    print(data)
     return json.dumps(data)
 
 
-def sendCommand(adress, data,key):
+def sendCommand(adress, data, key):
     import socket
     connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
         connection.connect((adress, STREAM_PORT))
-        msgSend = {'control': data,'key':key}
-        connection.send(json.dumps(msgSend).encode())
-        msgRecv = connection.recv(1024)
-        msg_decoded = msgRecv.decode('utf8')
-        msg_decoded = json.loads(msg_decoded)
-        return msg_decoded['successful'], msg_decoded['message']
-
     except Exception as e:
-        print(e)
-        return False, 'Could not connect to server'
+        return False, 'Could not connect to server. Invalid IP adress'
+
+    msgSend = {'control': data, 'key': key}
+    connection.send(json.dumps(msgSend).encode())
+    msgRecv = connection.recv(1024)
+    msg_decoded = msgRecv.decode('utf8')
+    msg_decoded = json.loads(msg_decoded)
+    return msg_decoded['successful'], msg_decoded['message']
 
 
 with app.test_request_context():

@@ -1,14 +1,23 @@
 <div class="container">
-  <div class="header row">
+  <div class="row header">
     <div class="four columns">
-      <h1 class="header__text">MAKERSLAB</h1>
+      <h1 class="header__text">MAKERSLAB
+        <small>Management centre</small>
+      </h1>
     </div>
-    <div class="six columns">
+    <div class="four columns">
       <nav class="row menu">
-        <div class=""><a class="menu__link" href="#"> Management </a></div>
-        <div class=""><a class="menu__link" href="/stl-pricing"> Price </a></div>
-        <div class=""><a class="menu__link" href="/stream"> Stream </a></div>
+        <a class="menu__link" href="#"> Management </a>|
+        <a class="menu__link" href="/stl-pricing"> Price </a>|
+        <a class="menu__link" href="/stream"> Stream </a>
       </nav>
+    </div>
+    <div class="three columns">
+      <p>
+        Logged in as <span>{{ info.username }}</span>
+        <a class="menu__link" href="">Logout</a>
+      </p>
+
     </div>
   </div>
 </div>
