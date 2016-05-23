@@ -80,9 +80,10 @@ def generateNames():
         content = content.splitlines()
         for index, i in enumerate(content):
             info = {}
-            name, adress = i.split(' ')
+            name, address = i.split(' ')
             info['name'] = name
             info['index'] = index
+            info['address']= address
             printers.append(info)
         f.close()
         return printers
