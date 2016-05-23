@@ -101,6 +101,7 @@ def sendCommand(adress, data, key):
     msgRecv = connection.recv(1024)
     msg_decoded = msgRecv.decode('utf8')
     msg_decoded = json.loads(msg_decoded)
+    connection.close()
     return msg_decoded['successful'], msg_decoded['message']
 
 
