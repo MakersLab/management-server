@@ -83,7 +83,7 @@ def generateNames():
             name, address = i.split(' ')
             info['name'] = name
             info['index'] = index
-            info['address']= address
+            info['address'] = address
             printers.append(info)
         f.close()
         return printers
@@ -108,14 +108,14 @@ def streamControl():
     return json.dumps(data)
 
 
-def sendCommand(adress, data, key):
+def sendCommand(address, data, key):
     import socket
     connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
-        connection.connect((adress, STREAM_PORT))
+        connection.connect((address, STREAM_PORT))
     except Exception as e:
         print(e)
-        return False, 'Could not connect to server. Invalid IP adress'
+        return False, 'Could not connect to server. Invalid IP address'
 
     msgSend = {'control': data, 'key': key}
     connection.send(json.dumps(msgSend).encode())

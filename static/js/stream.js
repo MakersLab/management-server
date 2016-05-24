@@ -30,7 +30,6 @@ function streamControl(method) {
 }
 ajaxCallback = function (data) {
     data_decoded = JSON.parse(data);
-    console.log(data_decoded);
     alert(data_decoded['message']);
 
 };
