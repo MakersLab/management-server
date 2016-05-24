@@ -49,7 +49,7 @@ def upload():
 
 @app.route('/stl-pricing/slice', methods=['POST'])
 def slicing():
-    sleep(3)
+
     state = {
         'price': 50,
         'successful': True,
