@@ -1,7 +1,0 @@
-[2016-05-23 12:58:59 +0000] [11699] [INFO] Starting gunicorn 19.5.0
-[2016-05-23 12:58:59 +0000] [11699] [INFO] Listening at: http://0.0.0.0:5000 (11699)
-[2016-05-23 12:58:59 +0000] [11699] [INFO] Using worker: sync
-[2016-05-23 12:58:59 +0000] [11702] [INFO] Booting worker with pid: 11702
-[2016-05-23 12:59:21 +0000] [11699] [INFO] Handling signal: int
-[2016-05-23 12:59:21 +0000] [11702] [INFO] Worker exiting (pid: 11702)
-[2016-05-23 12:59:21 +0000] [11699] [INFO] Shutting down: Master
