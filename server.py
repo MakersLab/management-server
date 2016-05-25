@@ -57,6 +57,10 @@ def upload():
 
 
 #
+@app.route('/management')
+def management():
+    return render_template('pages/management.jinja2',info=info)
+
 @app.route('/stl-pricing/slice', methods=['POST'])
 def slicing():
     filename = request.form['filename']

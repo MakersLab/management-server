@@ -1,0 +1,16 @@
+{% extends "template.jinja2" %}
+
+{% block content %}
+  <div class="container">
+    <div class="row content">
+      <div class="six columns offset-by-three">
+        Make backup of all config files and gcodes.
+        <button onclick="backup()">BACKUP</button>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block script %}
+  <script src="/static/js/management.js"></script>
+{% endblock %}
