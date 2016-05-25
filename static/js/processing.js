@@ -19,7 +19,27 @@ request.onreadystatechange = function () {
 
     }
 };
-request.open('POST', '/slicing', true);
+request.open('POST', '/stl-pricing/slice', true);
 request.send();
 
 console.log('Called');
+
+$.ajax({
+    type: 'POST',
+    url: '/stl-pricing/slice',
+    success: ajaxCallback,
+    data: {command: method, key: key, printer: printer,filename: $('#filename').text()}
+});
+ajaxCallback=function (data) {
+    data_decoded=JSON.parse(data);
+    textJson = request.responseText;
+    if (data['successful']) {
+        console.log('got successful');
+        $('#state').text('Successful');
+        $('#price').text(data['price']);
+        $('#price-state').show();
+    }
+    else {
+        $('#state').innerHTML = 'There was an error. Try again later';
+    }
+};
