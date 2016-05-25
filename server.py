@@ -62,7 +62,7 @@ def slicing():
     filename = request.form['filename']
     state = {}
     # provedení skriptu cura.sh
-    print_time=0
+    print_time = 0
     try:
         print_time = executeSlicingScript(filename)
     except Exception as e:
@@ -71,16 +71,17 @@ def slicing():
             'successful': False,
             'message': str(e),
         }
-    print_time=round(print_time/60,1)
-    price=200
+        stateJson = json.dumps(state)
+        return stateJson
+
+    print_time = round(print_time / 60, 1)
+    price = 200
     state = {
         'print_time': print_time,
-        'price':round(print_time/60*price,1),
+        'price': round(print_time / 60 * price, 1),
         'successful': True,
         'message': 'none'
     }
-
-
 
     stateJson = json.dumps(state)
     return stateJson
