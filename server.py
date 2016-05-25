@@ -3,7 +3,7 @@ from flask import Flask, url_for, render_template, request, redirect
 from time import localtime
 from time import sleep
 import json
-
+from modules.generateNames import generateNames
 app = Flask(__name__)
 app.debug = True
 
@@ -59,7 +59,17 @@ def upload():
 #
 @app.route('/management')
 def management():
-    return render_template('pages/management.jinja2',info=info)
+    return render_template('pages/management.jinja2', info=info)
+
+
+@app.route('/management/backup')
+def backup():
+    succesful = False
+    data = {
+        'successful': succesful
+    }
+    return json.dumps(data)
+
 
 @app.route('/stl-pricing/slice', methods=['POST'])
 def slicing():
@@ -108,25 +118,11 @@ def executeSlicingScript(filename):
 # stránka s ovládáním streamů
 @app.route('/stream')
 def stream():
-    printers = generateNames()
+    printers = generateNames(PRINTERS_PATH)
     return render_template('pages/stream.jinja2', info=info, list=printers)
 
 
-# převedení printers.txt na dictionary
-def generateNames():
-    printers = []
-    with open(PRINTERS_PATH, 'r') as f:
-        content = f.read()
-        content = content.splitlines()
-        for index, i in enumerate(content):
-            info = {}
-            name, address = i.split(' ')
-            info['name'] = name
-            info['index'] = index
-            info['address'] = address
-            printers.append(info)
-        f.close()
-        return printers
+
 
 
 # Nenavrací html stránku ale JSON přes AJAX
@@ -134,7 +130,7 @@ def generateNames():
 def streamControl():
     # Zjištění adresy tiskárny podle jména
     printer = request.form['printer']
-    list = generateNames()
+    list = generateNames(PRINTERS_PATH)
     address = list[int(printer)]['address']
 
     # Zjištění jestli se stream má zastavit nebo spustit
@@ -174,7 +170,6 @@ def sendCommand(address, data, key):
     msg_decoded = json.loads(msg_decoded)
     connection.close()
     # poslání zprávy uživatel
-    # i
     return msg_decoded['successful'], msg_decoded['message']
 
 
