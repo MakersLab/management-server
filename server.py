@@ -12,6 +12,9 @@ STREAM_PORT = 4000
 
 PRINTERS_PATH = 'printers.txt'
 STL_PRICING_FILE_PATH = 'uploads/temporary.stl'
+STL_PRICING_TEMPORARY_PATH = 'uploads/'
+
+PRICING = 200
 
 info = {
     'username': 'Jakub Zíka',
@@ -39,7 +42,7 @@ def upload():
         if (filename.split('.')[-1] == 'stl'):
 
             # cesta kde se uloží stl
-            path = os.path.normcase(os.path.join(os.path.dirname(__file__), STL_PRICING_TEMPORARY_PATH))
+            path = os.path.normcase(os.path.join(os.path.dirname(__file__), STL_PRICING_FILE_PATH))
             try:
                 file.save(path)
             except(Exception):
@@ -56,37 +59,53 @@ def upload():
 #
 @app.route('/stl-pricing/slice', methods=['POST'])
 def slicing():
-    state = {
-        'price': 50,
-        'successful': True,
-    }
-    filename=request.form['filename']
+    filename = request.form['filename']
+    state = {}
     # provedení skriptu cura.sh
-    executeSlicingScript(filename)
+    try:
+        print_time = executeSlicingScript(filename)
+        print_time=round(print_time/60,1)
+        price=200
+        state = {
+            'print_time': print_time,
+            'price':round(print_time/60*price,1),
+            'successful': True,
+            'message': 'none'
+        }
+
+    except Exception as e:
+        state = {
+            'print_time': 0,
+            'successful': False,
+            'message': str(e),
+        }
+
     stateJson = json.dumps(state)
     return stateJson
 
-#provedení skriptu + vygenerování jména pro gcode
+
+# provedení skriptu + vygenerování jména pro gcode
 def executeSlicingScript(filename):
-    #generování jména
+    # generování jména
     time = localtime()
     gcoName = ''
     for i in range(3):
         gcoName += '_' + str(time[i])
     gcoName += '.'.join(filename.split('.')[0:-1])
-    #provedení skriptu
-    os.system('sudo sh ' + CURA_SCRIPT_PATH + ' ' + gcoName)
-    print_time = 4
-    return print_time
+    # provedení skriptu
+    response = os.popen('sudo sh ' + CURA_SCRIPT_PATH + ' ' + gcoName)
+    for i in response:
+        return int(i)
 
 
-#stránka s ovládáním streamů
+# stránka s ovládáním streamů
 @app.route('/stream')
 def stream():
     printers = generateNames()
     return render_template('pages/stream.jinja2', info=info, list=printers)
 
-#převedení printers.txt na dictionary
+
+# převedení printers.txt na dictionary
 def generateNames():
     printers = []
     with open(PRINTERS_PATH, 'r') as f:
@@ -103,10 +122,10 @@ def generateNames():
         return printers
 
 
-#Nenavrací html stránku ale JSON přes AJAX
+# Nenavrací html stránku ale JSON přes AJAX
 @app.route('/stream/control', methods=['POST'])
 def streamControl():
-    #Zjištění adresy tiskárny podle jména
+    # Zjištění adresy tiskárny podle jména
     printer = request.form['printer']
     list = generateNames()
     address = list[int(printer)]['address']
@@ -127,29 +146,31 @@ def streamControl():
     }
     return json.dumps(data)
 
+
 # poslání příkazu na vybranou adresu
 def sendCommand(address, data, key):
     import socket
-    #vytvoření soketu
+    # vytvoření soketu
     connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    #navázání spojení
+    # navázání spojení
     try:
         connection.connect((address, STREAM_PORT))
     except Exception as e:
         print(e)
         return False, 'Could not connect to server. Invalid IP address'
-    #poslání požadavku
+    # poslání požadavku
     msgSend = {'control': data, 'key': key}
     connection.send(json.dumps(msgSend).encode())
-    #přijmutí odpovědé
+    # přijmutí odpovědé
     msg_recv = connection.recv(256)
     msg_decoded = msg_recv.decode('utf8')
     msg_decoded = json.loads(msg_decoded)
     connection.close()
-    #poslání zprávy uživatel
+    # poslání zprávy uživatel
     # i
     return msg_decoded['successful'], msg_decoded['message']
 
-#pokud je zavolán přímo tento skript tak se spustí defalutní server
+
+# pokud je zavolán přímo tento skript tak se spustí defalutní server
 if __name__ == '__main__':
     app.run('0.0.0.0')

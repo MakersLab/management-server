@@ -1,45 +1,26 @@
 $('#price-state').hide();
 
-request = new XMLHttpRequest();
-request.onreadystatechange = function () {
-    if (request.readyState == 4 && request.status == 200) {
-        textJson = request.responseText;
-        data = JSON.parse(textJson);
-        console.log(data);
-        console.log('JSON was successful');
-        if (data['successful']) {
-            console.log('got successful');
-            $('#state').text('Successful');
-            $('#price').text(data['price']);
-            $('#price-state').show();
-        }
-        else {
-            $('#state').innerHTML = 'There was an error. Try again later';
-        }
+ajaxCallback=function (data) {
+    data_decoded=JSON.parse(data);
+    if (data_decoded['successful']) {
+        console.log('got successful');
+        $('#state').text('Successful');
+        $('#time').text(data_decoded['print_time']);
+        $('#price').text(data_decoded['price']);
 
+        $('#price-state').show();
+
+        console.log('This better be called');
+    }
+    else {
+        $('#state').innerHTML = data['message'];
+        console.log('This better not be called')
     }
 };
-request.open('POST', '/stl-pricing/slice', true);
-request.send();
-
-console.log('Called');
 
 $.ajax({
     type: 'POST',
     url: '/stl-pricing/slice',
     success: ajaxCallback,
-    data: {command: method, key: key, printer: printer,filename: $('#filename').text()}
+    data: {filename: $('#filename').text()}
 });
-ajaxCallback=function (data) {
-    data_decoded=JSON.parse(data);
-    textJson = request.responseText;
-    if (data['successful']) {
-        console.log('got successful');
-        $('#state').text('Successful');
-        $('#price').text(data['price']);
-        $('#price-state').show();
-    }
-    else {
-        $('#state').innerHTML = 'There was an error. Try again later';
-    }
-};

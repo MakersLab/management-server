@@ -1,19 +1,23 @@
 {% extends "template.jinja2" %}
 
 {% block content %}
-    <div class="container">
-        <div class="row content">
-            <div class="eight columns offset-by-two">
-                <h2 id="filename">{{ filename }}</h2>
-                <div id="state">Processing stl</div>
-                <small id="price-state">
-                    Printing this will cost you
-                    <small id="price"></small>
-                    kč
-                </small>
-            </div>
-        </div>
+  <div class="container">
+    <div class="row content">
+      <div class="eight columns offset-by-two">
+        <h2 id="filename">{{ filename }}</h2>
+        <div id="state">Processing stl</div>
+        <small id="price-state">
+          Printing this will cost you
+          <small id="price"></small>
+          kč
+          <br>
+          Printing will take
+          <small id="time"></small>
+          minutes
+        </small>
+      </div>
     </div>
+  </div>
 {% endblock %}
 {% block script %}
   <script src="/static/js/processing.js"></script>
