@@ -39,7 +39,7 @@ def upload():
         filename = file.filename
 
         # ověření že nahraný soubor je typu stl
-        if (filename.split('.')[-1] == 'stl'):
+        if (filename.split('.')[-1].lower() == 'stl'):
 
             # cesta kde se uloží stl
             path = os.path.normcase(os.path.join(os.path.dirname(__file__), STL_PRICING_FILE_PATH))
