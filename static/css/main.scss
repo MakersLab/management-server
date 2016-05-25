@@ -9,6 +9,7 @@ body{
 .content{
   padding-top: 60px;
   background-color: $content-background-color;
+  line-break: strict;
 &:last-child{
   padding-bottom: 60px;
 }

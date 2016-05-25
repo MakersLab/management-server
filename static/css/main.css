@@ -22,7 +22,8 @@ body {
 
 .content {
   padding-top: 60px;
-  background-color: #ffffff; }
+  background-color: #ffffff;
+  line-break: strict; }
   .content:last-child {
     padding-bottom: 60px; }
 
