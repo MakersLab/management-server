@@ -5,7 +5,7 @@ ajaxCallback = function (data) {
         alert('All data are backed up.');
     }
     else {
-        alert('Unable to back up. Chceck logs on server.');
+        alert('Unable to back up. Chceck logs on server.'.data['message']);
     }
 };
 

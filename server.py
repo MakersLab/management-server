@@ -1,9 +1,10 @@
 import os
 from flask import Flask, url_for, render_template, request, redirect
-from time import localtime
-from time import sleep
+from time import localtime, strftime
 import json
 from modules.generateNames import generateNames
+from modules.backup import backup
+
 app = Flask(__name__)
 app.debug = True
 
@@ -64,9 +65,13 @@ def management():
 
 @app.route('/management/backup')
 def backup():
-    succesful = False
+    successful=False
+    message='Backup was not called'
+    if (request.form['backup'] == True):
+        successful,message = backup()
     data = {
-        'successful': succesful
+        'successful': successful,
+        'message': message,
     }
     return json.dumps(data)
 
@@ -106,11 +111,10 @@ def executeSlicingScript(filename):
     # generování jména
     time = localtime()
     gcoName = ''
-    for i in range(3):
-        gcoName += '_' + str(time[i])
-    gcoName += '.'.join(filename.split('.')[0:-1])
+
+    gcoName += strftime("%Y_%m_%d_%H_%M", localtime()) + '.'.join(filename.split('.')[0:-1])
     # provedení skriptu
-    response = os.popen('sudo sh ' + CURA_SCRIPT_PATH + ' ' + gcoName)
+    response = os.popen('sudo sh ' + CURA_SCRIPT_PATH + ' ' + 'data/gcode/'+gcoName)
     for i in response:
         return int(i)
 
@@ -120,9 +124,6 @@ def executeSlicingScript(filename):
 def stream():
     printers = generateNames(PRINTERS_PATH)
     return render_template('pages/stream.jinja2', info=info, list=printers)
-
-
-
 
 
 # Nenavrací html stránku ale JSON přes AJAX
