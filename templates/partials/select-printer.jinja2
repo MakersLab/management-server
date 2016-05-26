@@ -1,0 +1,5 @@
+<select class="" id="printer-list">
+  {% for printer in list %}
+    <option value="{{ printer.index }}">{{ printer.name }}</option>
+  {% endfor %}
+</select>

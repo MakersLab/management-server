@@ -4,11 +4,7 @@
   <div class="container">
     <div class="row content">
     <div class="stream">
-      <select class="" id="printer-list">
-        {% for printer in list %}
-        <option value="{{ printer.index }}">{{ printer.name }}</option>
-        {% endfor %}
-      </select>
+      {% include 'partials/select-printer.jinja2' %}
       <input type="text" class="" id="stream-key" placeholder="YouTube streaming key">
       <button type="submit" class="button" onclick="startStream()">START</button>
       <button type="submit" class="button" onclick="stopStream()">STOP</button>

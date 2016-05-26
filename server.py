@@ -49,8 +49,8 @@ def upload():
                 file.save(path)
             except(Exception):
                 return 'File was not uploaded'
-
-            return render_template('pages/processing.jinja2', filename=filename, info=info)
+            list=generateNames(PRINTERS_PATH)
+            return render_template('pages/processing.jinja2', filename=filename, info=info,list=list)
         return 'Wrong file type'
 
     # jestli je požadavek typu GET tak se uživateli zobrazí stránka kde může nahrát soubor
@@ -87,7 +87,7 @@ def slicing():
     except Exception as e:
         state = {
             'print_time': 0,
-            'successful': False,
+            'successful': True,
             'message': str(e),
         }
         stateJson = json.dumps(state)

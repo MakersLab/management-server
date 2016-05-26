@@ -7,7 +7,7 @@ ajaxCallback=function (data) {
         $('#time').text(data_decoded['print_time']);
         $('#price').text(data_decoded['price']);
 
-        $('#price-state').show();
+        $('#done-processing').show();
 
     }
     else {
@@ -21,3 +21,7 @@ $.ajax({
     success: ajaxCallback,
     data: {filename: $('#filename').text()}
 });
+
+function startPrint() {
+    
+}
