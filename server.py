@@ -63,7 +63,7 @@ def management():
     return render_template('pages/management.jinja2', info=info)
 
 
-@app.route('/management/backup')
+@app.route('/management/backup',methods=['POST',])
 def backup():
     successful=False
     message='Backup was not called'
@@ -92,7 +92,7 @@ def slicing():
         }
         stateJson = json.dumps(state)
         return stateJson
-
+    print(print_time)
     print_time = round(print_time / 60, 1)
     price = 200
     state = {
