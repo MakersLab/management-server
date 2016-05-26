@@ -4,6 +4,7 @@ from time import localtime, strftime
 import json
 from modules.generateNames import generateNames
 from modules.backup import  backup as dataBackup
+import threading
 
 app = Flask(__name__)
 app.debug = True
@@ -65,14 +66,12 @@ def management():
 
 @app.route('/management/backup',methods=['POST',])
 def backup():
-    successful=False
-    message='Backup was not called'
-    print(request.form['backup'])
+    t=threading.Thread(target=dataBackup,args=[])
     if (request.form['backup'] == 'true'):
-        successful,message = dataBackup()
+        t.start()
     data = {
-        'successful': successful,
-        'message': message,
+        'successful': True,
+        'message': 'Backup should start.',
     }
     return json.dumps(data)
 
