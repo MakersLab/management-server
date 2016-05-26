@@ -114,7 +114,7 @@ def executeSlicingScript(filename):
 
     gcoName += strftime("%Y_%m_%d_%H_%M", localtime()) + '.'.join(filename.split('.')[0:-1])
     # provedení skriptu
-    response = os.popen('sudo sh ' + CURA_SCRIPT_PATH + ' ' + 'data/gcode/'+gcoName)
+    response = os.popen('sudo sh ' + CURA_SCRIPT_PATH + ' ' + 'data/gcodes/' +gcoName)
     for i in response:
         return int(i)
 
