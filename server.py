@@ -3,7 +3,7 @@ from flask import Flask, url_for, render_template, request, redirect
 from time import localtime, strftime
 import json
 from modules.generateNames import generateNames
-from modules.backup import backup
+from modules.backup import  backup as dataBackup
 
 app = Flask(__name__)
 app.debug = True
@@ -67,8 +67,9 @@ def management():
 def backup():
     successful=False
     message='Backup was not called'
-    if (request.form['backup'] == True):
-        successful,message = backup()
+    print(request.form['backup'])
+    if (request.form['backup'] == 'true'):
+        successful,message = dataBackup()
     data = {
         'successful': successful,
         'message': message,
