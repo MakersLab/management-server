@@ -103,7 +103,7 @@ def stl_pricing_print():
     print('\n')
     print(r.text)
     print(r.status_code)
-    if (r.status_code == 202):
+    if (r.status_code == 204):
         response = {'successful': True,'status-code':r.status_code,'message':'Failed at print file'}
         return json.dumps(response)
     else:
