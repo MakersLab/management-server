@@ -86,7 +86,7 @@ def slicing():
     return stateJson
 
 
-@app.route('/stl-pricing/print')
+@app.route('/stl-pricing/print',methods=['POST',])
 def stl_pricing_print():
     printer_index = int(request.form['printer'])
     list = generateNames(PRINTERS_PATH)
