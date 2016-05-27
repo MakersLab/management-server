@@ -96,16 +96,18 @@ def stl_pricing_print():
     r = sendFile(gcode_name, printer)
     print(r.text)
     if (r.status_code != 200):
-        response = {'successful': False,}
+        response = {'successful': False,'status-code':r.status_code,'message':'Failed at send file'}
         return json.dumps(response)
 
     r = startPrint(gcode_name, printer)
+    print('\n')
     print(r.text)
+    print(r.status_code)
     if (r.status_code == 200):
-        response = {'successful': True}
+        response = {'successful': True,'status-code':r.status_code,'message':'Failed at print file'}
         return json.dumps(response)
     else:
-        response = {'successful': False}
+        response = {'successful': False,'status-code':r.status_code,'message':'All done'}
         return json.dumps(response)
 
 
