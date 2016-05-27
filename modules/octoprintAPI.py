@@ -17,5 +17,5 @@ def startPrint(file_name, printer):
         'select': True,
         'print': True,
     }
-    r = requests.post(url, params=command,headers=headers)
+    r = requests.post(url, json=command,headers=headers)
     return r
