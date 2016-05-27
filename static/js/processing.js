@@ -1,5 +1,7 @@
 $('#price-state').hide();
 
+var gcode_name;
+
 ajaxCallback = function (data) {
     data_decoded = JSON.parse(data);
     if (data_decoded['successful']) {
@@ -13,6 +15,7 @@ ajaxCallback = function (data) {
     else {
         $('#state').innerHTML = data['message'];
     }
+    gcode_name = data_decoded['gcode'];
 };
 
 $.ajax({
@@ -22,8 +25,9 @@ $.ajax({
     data: {filename: $('#filename').text()}
 });
 
-printCallback= function (data) {
-    data=JSON.parse(data);
+//////////////////////
+printCallback = function (data) {
+    data = JSON.parse(data);
     alert(data['successful']);
 };
 
@@ -33,8 +37,8 @@ function startPrint() {
     $.ajax({
         type: 'POST',
         url: '/stl-pricing/print',
-        success:printCallback,
-        data: {printer: printer}
+        success: printCallback,
+        data: {printer: printer, gcode: gcode_name}
 
     });
 }

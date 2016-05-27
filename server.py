@@ -17,7 +17,6 @@ PRINTERS_PATH = 'printers.txt'
 STL_PRICING_FILE_PATH = 'uploads/temporary.stl'
 STL_PRICING_TEMPORARY_PATH = 'uploads/'
 
-current_gcode = ''
 
 PRICING = 200
 
@@ -63,7 +62,7 @@ def slicing():
     # provedení skriptu cura.sh
     print_time = 0
     try:
-        print_time, current_gcode = executeSlicingScript(filename)
+        print_time, gcode_name = executeSlicingScript(filename)
     except Exception as e:
         state = {
             'print_time': 0,
@@ -79,7 +78,8 @@ def slicing():
         'print_time': print_time,
         'price': round(print_time / 60 * price, 1),
         'successful': True,
-        'message': 'none'
+        'message': 'none',
+        'gcode':gcode_name+'.gcode'
     }
 
     stateJson = json.dumps(state)
@@ -89,16 +89,17 @@ def slicing():
 @app.route('/stl-pricing/print',methods=['POST',])
 def stl_pricing_print():
     printer_index = int(request.form['printer'])
+    gcode_name=request.form['gcode']
     list = generateNames(PRINTERS_PATH)
     printer = list[printer_index]
-    print(current_gcode)
-    r = sendFile(current_gcode, printer)
+    print(gcode_name)
+    r = sendFile(gcode_name, printer)
     print(r.text)
     if (r.status_code != 200):
         response = {'successful': False,}
         return json.dumps(response)
 
-    r = startPrint(current_gcode, printer)
+    r = startPrint(gcode_name, printer)
     print(r.text)
     if (r.status_code == 200):
         response = {'successful': True}
