@@ -93,13 +93,13 @@ def stl_pricing_print():
     printer = list[printer_index]
     print(current_gcode)
     r = sendFile(current_gcode, printer)
-
+    print(r.text)
     if (r.status_code != 200):
         response = {'successful': False,}
         return json.dumps(response)
 
     r = startPrint(current_gcode, printer)
-
+    print(r.text)
     if (r.status_code == 200):
         response = {'successful': True}
         return json.dumps(response)
