@@ -95,7 +95,7 @@ def stl_pricing_print():
     print(gcode_name)
     r = sendFile(gcode_name, printer)
     print(r.text)
-    if (r.status_code != 200):
+    if (r.status_code != 202):
         response = {'successful': False,'status-code':r.status_code,'message':'Failed at send file'}
         return json.dumps(response)
 
