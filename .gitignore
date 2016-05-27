@@ -9,3 +9,4 @@
 data
 out
 gen
+*.pyc

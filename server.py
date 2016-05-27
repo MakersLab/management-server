@@ -79,14 +79,14 @@ def slicing():
         'price': round(print_time / 60 * price, 1),
         'successful': True,
         'message': 'none',
-        'gcode':gcode_name+'.gcode'
+        'gcode':gcode_name+'.gcode',
     }
 
     stateJson = json.dumps(state)
     return stateJson
 
 
-@app.route('/stl-pricing/print',methods=['POST',])
+@app.route('/stl-pricing/print',methods=['POST'])
 def stl_pricing_print():
     printer_index = int(request.form['printer'])
     gcode_name=request.form['gcode']
@@ -109,7 +109,6 @@ def stl_pricing_print():
         return json.dumps(response)
 
 
-#
 @app.route('/management')
 def management():
     return render_template('pages/management.jinja2', info=info)
