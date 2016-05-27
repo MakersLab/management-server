@@ -1,7 +1,7 @@
 $('#price-state').hide();
 
-ajaxCallback=function (data) {
-    data_decoded=JSON.parse(data);
+ajaxCallback = function (data) {
+    data_decoded = JSON.parse(data);
     if (data_decoded['successful']) {
         $('#state').text('Successful');
         $('#time').text(data_decoded['print_time']);
@@ -23,5 +23,11 @@ $.ajax({
 });
 
 function startPrint() {
-    
+    printer = $('#printer-list option:selected').val();
+
+    $.ajax({
+        type: 'POST',
+        url: '/stl-pricing/print',
+        data: {printer: printer}
+    });
 }

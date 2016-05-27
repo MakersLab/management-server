@@ -3,7 +3,8 @@ from flask import Flask, url_for, render_template, request, redirect
 from time import localtime, strftime
 import json
 from modules.generateNames import generateNames
-from modules.backup import  backup as dataBackup
+from modules.backup import backup as dataBackup
+from modules.octoprintAPI import sendFile, startPrint
 import threading
 
 app = Flask(__name__)
@@ -16,21 +17,18 @@ PRINTERS_PATH = 'printers.txt'
 STL_PRICING_FILE_PATH = 'uploads/temporary.stl'
 STL_PRICING_TEMPORARY_PATH = 'uploads/'
 
+current_gcode = ''
+
 PRICING = 200
 
 info = {
     'username': 'Jakub Zíka',
 }
 
-'''Hlavní stránka'''
-
 
 @app.route('/')
 def index():
     return render_template('pages/index.jinja2', info=info)
-
-
-'''Ocenění modelů'''
 
 
 @app.route('/stl-pricing', methods=['POST', 'GET'])
@@ -49,31 +47,13 @@ def upload():
                 file.save(path)
             except(Exception):
                 return 'File was not uploaded'
-            list=generateNames(PRINTERS_PATH)
-            return render_template('pages/processing.jinja2', filename=filename, info=info,list=list)
+            list = generateNames(PRINTERS_PATH)
+            return render_template('pages/processing.jinja2', filename=filename, info=info, list=list)
         return 'Wrong file type'
 
     # jestli je požadavek typu GET tak se uživateli zobrazí stránka kde může nahrát soubor
     elif request.method == 'GET':
         return render_template('pages/file_upload.jinja2', info=info)
-
-
-#
-@app.route('/management')
-def management():
-    return render_template('pages/management.jinja2', info=info)
-
-
-@app.route('/management/backup',methods=['POST',])
-def backup():
-    t=threading.Thread(target=dataBackup,args=[])
-    if (request.form['backup'] == 'true'):
-        t.start()
-    data = {
-        'successful': True,
-        'message': 'Backup should start.',
-    }
-    return json.dumps(data)
 
 
 @app.route('/stl-pricing/slice', methods=['POST'])
@@ -83,7 +63,7 @@ def slicing():
     # provedení skriptu cura.sh
     print_time = 0
     try:
-        print_time = executeSlicingScript(filename)
+        print_time, current_gcode = executeSlicingScript(filename)
     except Exception as e:
         state = {
             'print_time': 0,
@@ -106,6 +86,46 @@ def slicing():
     return stateJson
 
 
+@app.route('/stl-pricing/print')
+def stl_pricing_print():
+    printer_index = int(request.form['printer'])
+    list = generateNames(PRINTERS_PATH)
+    printer = list[printer_index]
+    print(current_gcode)
+    r = sendFile(current_gcode, printer)
+
+    if (r.status_code != 200):
+        response = {'successful': False,}
+        return json.dumps(response)
+
+    r = startPrint(current_gcode, printer)
+
+    if (r.status_code == 200):
+        response = {'successful': True}
+        return json.dumps(response)
+    else:
+        response = {'successful': False}
+        return json.dumps(response)
+
+
+#
+@app.route('/management')
+def management():
+    return render_template('pages/management.jinja2', info=info)
+
+
+@app.route('/management/backup', methods=['POST', ])
+def backup():
+    t = threading.Thread(target=dataBackup, args=[])
+    if (request.form['backup'] == 'true'):
+        t.start()
+    data = {
+        'successful': True,
+        'message': 'Backup should start.',
+    }
+    return json.dumps(data)
+
+
 # provedení skriptu + vygenerování jména pro gcode
 def executeSlicingScript(filename):
     # generování jména
@@ -114,9 +134,9 @@ def executeSlicingScript(filename):
 
     gcoName += strftime("%Y_%m_%d_%H_%M", localtime()) + '.'.join(filename.split('.')[0:-1])
     # provedení skriptu
-    response = os.popen('sudo sh ' + CURA_SCRIPT_PATH + ' ' + 'data/gcodes/' +gcoName)
+    response = os.popen('sudo sh ' + CURA_SCRIPT_PATH + ' ' + 'data/gcodes/' + gcoName)
     for i in response:
-        return int(i)
+        return int(i), gcoName + '.gcode'
 
 
 # stránka s ovládáním streamů
