@@ -79,7 +79,7 @@ def slicing():
         'price': round(print_time / 60 * price, 1),
         'successful': True,
         'message': 'none',
-        'gcode':gcode_name+'.gcode',
+        'gcode':gcode_name,
     }
 
     stateJson = json.dumps(state)
