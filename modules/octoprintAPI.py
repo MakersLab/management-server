@@ -10,8 +10,8 @@ def sendFile(file_name, printer):
     return r
 
 
-def startPrint(name, printer):
-    url = 'http://' + printer + '/api/files/local/' + name
+def startPrint(file_name, printer):
+    url = 'http://' + printer['address'] + '/api/files/local/' + file_name
     headers = {'X-Api-Key': printer['api-key']}
     command = {
         'select': True,
