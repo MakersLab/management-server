@@ -66,7 +66,7 @@ def slicing():
     except Exception as e:
         state = {
             'print_time': 0,
-            'successful': True,
+            'successful': False,
             'message': str(e),
         }
         stateJson = json.dumps(state)
