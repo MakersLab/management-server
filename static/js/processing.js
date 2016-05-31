@@ -1,4 +1,4 @@
-$('#price-state').hide();
+$('#done-processing').hide();
 
 var gcode_name;
 
@@ -39,6 +39,5 @@ function startPrint() {
         url: '/stl-pricing/print',
         success: printCallback,
         data: {printer: printer, gcode: gcode_name}
-
     });
 }
