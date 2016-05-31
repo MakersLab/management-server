@@ -1,4 +1,4 @@
-$('#done-processing').hide();
+$('.done-processing').hide();
 
 var gcode_name;
 
@@ -9,7 +9,7 @@ ajaxCallback = function (data) {
         $('#time').text(data_decoded['print_time']);
         $('#price').text(data_decoded['price']);
 
-        $('#done-processing').show();
+        $('.done-processing').show();
 
     }
     else {
