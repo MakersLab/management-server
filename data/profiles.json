@@ -16,7 +16,7 @@
       "name": "normal",
       "index": 2,
       "cura-path": "normal.ini",
-      "slic3r-path": "normal.cfg"
+      "slic3r-path": "normal.ini"
     }
   ],
   "cura-profile-path": "data/profiles/cura/",
