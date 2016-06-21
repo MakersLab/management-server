@@ -3,14 +3,14 @@
     {
       "name": "smooth",
       "index": 0,
-      "cura-path": "smoth.cfg",
-      "slic3r-path": "smooth.cfg"
+      "cura-path": "smoth.ini",
+      "slic3r-path": "smooth.ini"
     },
     {
       "name": "fast",
       "index": 1,
-      "cura-path": "fast.cfg",
-      "slic3r-path": "fast.cfg"
+      "cura-path": "fast.ini",
+      "slic3r-path": "fast.ini"
     },
     {
       "name": "normal",
