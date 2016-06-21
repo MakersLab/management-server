@@ -1,0 +1,24 @@
+{
+  "profiles": [
+    {
+      "name": "smooth",
+      "index": 0,
+      "cura-path": "smoth.cfg",
+      "slic3r-path": "smooth.cfg"
+    },
+    {
+      "name": "fast",
+      "index": 1,
+      "cura-path": "fast.cfg",
+      "slic3r-path": "fast.cfg"
+    },
+    {
+      "name": "normal",
+      "index": 2,
+      "cura-path": "normal.ini",
+      "slic3r-path": "normal.cfg"
+    }
+  ],
+  "cura-profile-path": "data/profiles/cura/",
+  "slic3r-profile-path": "data/profiles/slic3r/"
+}

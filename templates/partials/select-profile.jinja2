@@ -1,0 +1,3 @@
+  {% for profile in profilesList %}
+    <label class="form__checkbox checkbox"><input  type="checkbox" value="{{ profile.name }}" name="{{ profile.index }}" class="profiles-list"> {{ profile.name }}</label>
+  {% endfor %}

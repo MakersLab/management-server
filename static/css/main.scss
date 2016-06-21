@@ -2,19 +2,32 @@
 @import "variables";
 @import "header";
 
-body{
+body {
   background-color: $body-background-color;
 }
 
-.content{
+.content {
   padding-top: 60px;
   background-color: $content-background-color;
   line-break: strict;
-&:last-child{
-  padding-bottom: 60px;
-}
+  &:last-child {
+    padding-bottom: 60px;
+  }
+
+  &__heading-2{
+    text-align: center;
+  }
 }
 
-.stream{
+.stream {
   text-align: center;
+}
+
+.form {
+  border: solid 1px #aeaeae;
+  border-radius: 10px;
+  padding: 20px;
+  &__checkbox {
+    font-weight: 100;
+  }
 }

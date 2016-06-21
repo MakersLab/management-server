@@ -26,8 +26,17 @@ body {
   line-break: strict; }
   .content:last-child {
     padding-bottom: 60px; }
+  .content__heading-2 {
+    text-align: center; }
 
 .stream {
   text-align: center; }
+
+.form {
+  border: solid 1px #aeaeae;
+  border-radius: 10px;
+  padding: 20px; }
+  .form__checkbox {
+    font-weight: 100; }
 
 /*# sourceMappingURL=main.css.map */

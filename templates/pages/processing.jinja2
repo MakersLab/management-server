@@ -3,24 +3,52 @@
 {% block content %}
   <div class="container">
     <div class="row content">
-      <div class="eight columns offset-by-two">
-        <h2 id="filename">{{ filename }}</h2>
-        <div id="state"><img src="/static/img/loading.gif" alt=""><br> Slicing stl.<br>Please wait</div>
-        <div class="done-processing">
-          Printing this will cost you
-          <span id="price"></span>
-          kč
-          <br>
-          Printing will take
-          <span id="time"></span>
-          minutes
-          <br>
+      <h2 id="filename" class="content__heading-2">{{ filename }}</h2>
+      <div class="six columns offset-by-one">
+
+        <div id="options" class="row form">
+
+          <div class="">
+            <label for="profile-selection">Select profile</label>
+            <span id="profile-selection">
+            {% include 'partials/select-profile.jinja2' %}
+            </span>
+            <hr>
+          </div>
+          <div class="">
+            <label for="slicer-selection">Select slicer</label>
+            <select id="slicer-selection">
+              <option value="0">Cura</option>
+              <option value="1">Slic3r</option>
+            </select>
+            <hr>
+          </div>
+          <div class="">
+            <label for="start-slice">Slice</label>
+            <button id="start-slice" onclick="slice()">Slice</button>
+          </div>
+          <hr>
         </div>
+
+        <div id="state"><img src="/static/img/loading.gif" alt=""><br> Slicing stl.<br>Please wait</div>
         <div class="done-processing">
           {% include 'partials/select-printer.jinja2' %}
           <button onclick="startPrint()">PRINT</button>
         </div>
       </div>
+      <div class="four columns offset-by-one done-processing">
+          <table>
+            <thead>
+            <tr>
+              <td>Profile</td>
+              <td>Print time</td>
+              <td>Price</td>
+            </tr>
+            </thead>
+            <tbody id="slice-results">
+            </tbody>
+          </table>
+        </div>
     </div>
   </div>
 {% endblock %}

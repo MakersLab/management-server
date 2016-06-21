@@ -4,9 +4,8 @@
 
 # IntelliJ project files
 .idea
-*.iml
 *.map
-data
+data/gcodes/*
 out
 gen
 *.pyc
