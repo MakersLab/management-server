@@ -73,12 +73,13 @@ def slicing():
         path = profilesList['slic3r-profile-path'] + profilesList['profiles'][int(profile['index'])]['slic3r-path']
 
         if (profile['slice']):
-            try:
-                print('called')
-                print_time, gcode_name = executeSlicingScript(filename, path,profilesList[int(profile['index'])]['name'])
-                successful = True
-            except Exception as e:
-                successful = False
+            # try:
+            print(path)
+            print_time, gcode_name = executeSlicingScript(filename, path,profilesList['profiles'][int(profile['index'])]['name'])
+            successful = True
+            # except Exception as e:
+            #     successful = False
+            #     print(e)
             print_time = round(print_time / 60, 1)
             price = round(print_time / 60 * PRICING, 1)
             temp={
@@ -142,7 +143,7 @@ def backup():
 def executeSlicingScript(filename, parameters, profile):
     time = localtime()
     gcoName = ''
-
+    print(filename,parameters,profile)
     gcoName += strftime("%Y_%m_%d_%H_%M", localtime()) + '_' + profile + '_' + '.'.join(filename.split('.')[0:-1])
     response = os.popen('sudo sh ' + CURA_SCRIPT_PATH + ' ' + 'data/gcodes/' + gcoName + ' ' + parameters)
     for i in response:
