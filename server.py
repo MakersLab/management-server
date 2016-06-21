@@ -145,7 +145,7 @@ def executeSlicingScript(filename, parameters, profile):
     gcoName = ''
     print(filename,parameters,profile)
     gcoName += strftime("%Y_%m_%d_%H_%M", localtime()) + '_' + profile + '_' + '.'.join(filename.split('.')[0:-1])
-    response = os.popen('sudo sh ' + CURA_SCRIPT_PATH + ' ' + 'data/gcodes/' + gcoName + ' ' + parameters)
+    response = os.popen('sudo sh ' + CURA_SCRIPT_PATH + ' ' + 'data/gcodes/' + gcoName + ' ' + os.getcwd()+'/'+parameters)
     for i in response:
         return int(i), gcoName + '.gcode'
 
